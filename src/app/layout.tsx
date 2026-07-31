@@ -5,17 +5,18 @@ import { ThemeProvider } from '@/components/shared/ThemeProvider';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ScrollToTop from '@/components/layout/ScrollToTop';
+import { SITE_URL } from '@/lib/site';
 
 const inter = Inter({ subsets: ['vietnamese'], variable: '--font-inter' });
 const lora = Lora({ subsets: ['vietnamese'], variable: '--font-lora' });
-const siteUrl = 'https://erpai.link';
+
 
 const siteTitle = 'Nguyễn Đình Tùng — Odoo Developer';
 const siteDescription =
   'Nguyễn Đình Tùng — Odoo Developer với hơn 2 năm kinh nghiệm phát triển module, tùy chỉnh quy trình nghiệp vụ, làm báo cáo, tích hợp REST API/XML-RPC và xử lý dữ liệu PostgreSQL.';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE_URL),
   title: {
     template: '%s — Nguyễn Đình Tùng',
     default: siteTitle,
@@ -36,7 +37,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: siteTitle,
     description: siteDescription,
-    url: siteUrl,
+    url: SITE_URL,
     siteName: 'Nguyễn Đình Tùng',
     locale: 'vi_VN',
     type: 'website',

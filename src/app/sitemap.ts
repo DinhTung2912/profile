@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { posts } from '@/data/posts';
 import { journeys } from '@/data/journeys';
+import { SITE_URL } from '@/lib/site';
 
-const baseUrl = 'https://erpai.link';
+const baseUrl = SITE_URL;
 
 /** Newest date across a content collection, so `lastModified` tracks real edits
  *  instead of moving on every build. */
