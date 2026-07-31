@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 import { posts } from '@/data/posts';
 import { journeys } from '@/data/journeys';
 
-const baseUrl = 'https://tungprofile.dev';
+const baseUrl = 'https://erpai.link';
 
 /** Newest date across a content collection, so `lastModified` tracks real edits
  *  instead of moving on every build. */

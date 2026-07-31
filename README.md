@@ -168,8 +168,6 @@ Không thêm mã màu trực tiếp vào component — dùng token để giữ l
 
 ## Cần cập nhật trước khi deploy
 
-- Thay `https://tungprofile.dev` bằng domain thật trong `src/app/layout.tsx`,
-  `src/app/sitemap.ts` và `src/app/robots.ts`
 - Điền `social.linkedin` / `social.facebook` trong `profile.ts` nếu muốn hiện icon
 - Form liên hệ hiện chỉ mô phỏng việc gửi (`setTimeout` trong
   `src/components/contact/ContactForm.tsx`) — cần nối vào API thật

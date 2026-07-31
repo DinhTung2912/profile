@@ -8,7 +8,7 @@ import ScrollToTop from '@/components/layout/ScrollToTop';
 
 const inter = Inter({ subsets: ['vietnamese'], variable: '--font-inter' });
 const lora = Lora({ subsets: ['vietnamese'], variable: '--font-lora' });
-const siteUrl = 'https://tungprofile.dev';
+const siteUrl = 'https://erpai.link';
 
 const siteTitle = 'Nguyễn Đình Tùng — Odoo Developer';
 const siteDescription =
