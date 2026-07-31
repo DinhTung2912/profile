@@ -1,26 +1,382 @@
 @import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent-teal: var(--accent-teal);
+  --color-accent-rose: var(--accent-rose);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-footer: var(--footer);
+
+  /* Fixed tones for elements that always sit on media or always carry white
+     text — they must not flip between light and dark. */
+  --color-mark-work: #b5560f;
+  --color-mark-study: #26736b;
+  --color-mark-life: #a84a62;
+  --color-media: #2a2320;
+
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-lora);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+:root {
+  color-scheme: light;
+  --background: #fdfaf6;
+  --surface: #ffffff;
+  --surface-muted: #f5efe6;
+  --foreground: #26201b;
+  --muted-foreground: #6b6158;
+  --border: #e9e0d4;
+  --border-strong: #d8ccbc;
+  /* Passes WCAG AA (>=4.5) as small text on background, surface and
+     surface-muted — the eyebrow label renders at 11px. */
+  --primary: #ad5010;
+  --primary-hover: #8b3e0b;
+  --primary-soft: #fbeee0;
+  --primary-foreground: #ffffff;
+  --accent-teal: #26736b;
+  --accent-rose: #a84a62;
+  --success: #3f6d46;
+  --success-soft: #eef4ec;
+  --danger: #bf3a2b;
+  --footer: #f5efe6;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: #191512;
+  --surface: #231e1a;
+  --surface-muted: #1f1a17;
+  --foreground: #f3ece3;
+  --muted-foreground: #b6a99c;
+  --border: #352e28;
+  --border-strong: #473e36;
+  --primary: #f0a25c;
+  --primary-hover: #f7bb82;
+  --primary-soft: #33231a;
+  --primary-foreground: #191512;
+  --accent-teal: #74c0b5;
+  --accent-rose: #e295a4;
+  --success: #8fbb84;
+  --success-soft: #1c2a1e;
+  --danger: #ef8a7d;
+  --footer: #1f1a17;
+}
+
+@layer base {
+  /* Tailwind v4 defaults `border-color` to currentColor; keep the themed
+     border as the default so bare `border`/`border-t` utilities stay on-system. */
+  *,
+  ::before,
+  ::after {
+    border-color: var(--border);
   }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sticky header is 4rem; leave a little breathing room above anchors. */
+  scroll-padding-top: 5.5rem;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  color: var(--surface);
+  background: var(--primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+  border-radius: 0.25rem;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--muted-foreground) 30%, transparent);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--muted-foreground) 55%, transparent);
+}
+
+/* ---------------------------------------------------------------- layout */
+
+.site-container {
+  width: min(100% - 2.5rem, 68rem);
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .site-container {
+    width: min(100% - 4rem, 68rem);
+  }
+}
+
+/* Narrower measure for long-form reading (article bodies). */
+.reading-container {
+  width: min(100% - 2.5rem, 46rem);
+  margin-inline: auto;
+}
+
+@media (min-width: 640px) {
+  .reading-container {
+    width: min(100% - 4rem, 46rem);
+  }
+}
+
+/* Vertical rhythm between homepage bands. */
+.section-space {
+  padding-block: clamp(3.25rem, 6vw, 5rem);
+}
+
+/* Top/bottom padding for a standalone page under the sticky header. */
+.page-space {
+  padding-top: clamp(2rem, 4vw, 3rem);
+  padding-bottom: clamp(4rem, 8vw, 6rem);
+}
+
+/* ------------------------------------------------------------ typography */
+
+/* Two small-caps roles, and only two: `eyebrow` marks a section (accent tone),
+   `label-caps` titles a sub-block (muted tone). Same metrics so they read as
+   one system. */
+.eyebrow,
+.label-caps {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: var(--primary);
+}
+
+.label-caps {
+  color: var(--muted-foreground);
+}
+
+/* Key label inside a definition list or list item — lighter than `label-caps`
+   so it sits under, not beside, the block headings. */
+.label-field {
+  display: block;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.display-title {
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: clamp(2.25rem, 5.2vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+.section-title {
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.card-title {
+  font-family: var(--font-lora), Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  line-height: 1.3;
+}
+
+.body-copy {
+  max-width: 62ch;
+  color: var(--muted-foreground);
+  font-size: clamp(1rem, 1.4vw, 1.0625rem);
+  line-height: 1.75;
+}
+
+/* Small meta rows: date • location • reading time */
+.meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+/* Decorative separator: dimmed relative to the meta text, but still legible. */
+.meta-sep {
+  color: color-mix(in srgb, var(--muted-foreground) 50%, transparent);
+}
+
+/* ----------------------------------------------------------------- cards */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 0.875rem;
+  background: var(--surface);
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: var(--border-strong);
+}
+
+/* The link fills the card and `overflow: hidden` clips its outline, so the
+   focus ring is drawn on the card itself. Covers both shapes: a card wrapping
+   a link, and a card that *is* a button. */
+.card:focus-visible,
+.card:has(:focus-visible) {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
+.card :focus-visible {
+  outline: none;
+}
+
+/* Neutral backdrop behind images while they load, so cards never flash white. */
+.media-frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-muted);
+}
+
+/* --------------------------------------------------------------- article */
+
+.prose {
+  color: var(--muted-foreground);
+  font-size: 1.0625rem;
+  line-height: 1.8;
+}
+.prose > * + * {
+  margin-top: 1.35rem;
+}
+.prose h2 {
+  margin-top: 2.5rem;
+  margin-bottom: -0.35rem;
+  color: var(--foreground);
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: clamp(1.5rem, 2.6vw, 1.875rem);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+.prose h3 {
+  margin-top: 2rem;
+  margin-bottom: -0.5rem;
+  color: var(--foreground);
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.35rem;
+}
+.prose ul {
+  list-style-type: disc;
+}
+.prose ol {
+  list-style-type: decimal;
+}
+.prose li + li {
+  margin-top: 0.4rem;
+}
+.prose li::marker {
+  color: var(--border-strong);
+}
+.prose strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+.prose a {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--primary) 40%, transparent);
+}
+.prose a:hover {
+  color: var(--primary-hover);
+  text-decoration-color: currentColor;
+}
+.prose blockquote {
+  border-left: 3px solid var(--primary);
+  padding-left: 1.15rem;
+  color: var(--foreground);
+  font-family: var(--font-lora), Georgia, serif;
+  font-size: 1.125rem;
+  font-style: italic;
+}
+.prose img {
+  border-radius: 0.75rem;
+}
+.prose code {
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 0.3rem;
+  padding: 0.1em 0.35em;
+  font-size: 0.9em;
+}
+.prose pre {
+  overflow-x: auto;
+  background: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1rem 1.15rem;
+}
+.prose pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
