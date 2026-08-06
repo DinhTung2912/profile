@@ -1,0 +1,52 @@
+name: Deploy to Vercel
+
+# Auto-deploy without Vercel's GitHub integration: the Vercel account that owns
+# this project has no GitHub login connection, so `vercel git connect` is not
+# available. This runs the same build Vercel would, driven by a token.
+#
+# Requires one repository secret — Settings > Secrets and variables > Actions:
+#   VERCEL_TOKEN   create at https://vercel.com/account/tokens
+# The project and org ids are not secret; they identify the deploy target.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VERCEL_ORG_ID: team_0mLvLGDvEjA5y9FDhV9WOKxz
+  VERCEL_PROJECT_ID: prj_6tspDkzaQZVcP9uKklkjWABRMGq9
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Catch problems here rather than after they are already live.
+      - name: Lint
+        run: npm run lint
+
+      - name: Install Vercel CLI
+        run: npm i -g vercel@latest
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
