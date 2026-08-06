@@ -39,6 +39,18 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      # Without this the run dies inside `vercel pull` with a generic auth
+      # error that gives no hint about which secret is missing.
+      - name: Check VERCEL_TOKEN is set
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "::error::Thiếu secret VERCEL_TOKEN."
+            echo "Tạo token tại https://vercel.com/account/tokens (scope: cactungte29122000-9297's projects),"
+            echo "rồi thêm vào Settings > Secrets and variables > Actions với tên VERCEL_TOKEN."
+            exit 1
+          fi
+          echo "VERCEL_TOKEN có sẵn."
+
       - name: Install Vercel CLI
         run: npm i -g vercel@latest
 
