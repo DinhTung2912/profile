@@ -106,9 +106,10 @@ export const profile: Profile = {
   currentProject: {
     status: 'Đang thực hiện',
     kind: 'Sách',
-    title: 'Tuổi 20 Không Ai Nói Trước',
+    title: 'Tuổi Hai Mươi Không Ai Nói Trước',
     summary: 'Mình đang viết cuốn sách đầu tiên.',
     body: 'Cuốn sách sẽ chia sẻ những bài học thực tế về công việc, lập trình, tài chính cá nhân, phát triển bản thân và những trải nghiệm mình tích lũy trong hành trình trưởng thành. Hy vọng đây sẽ là cuốn sách giúp những bạn trẻ có thêm góc nhìn và sự chuẩn bị tốt hơn cho tuổi 20.',
+    cover: '/images/book-cover.jpg',
   },
 };
 

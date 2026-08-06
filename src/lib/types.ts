@@ -32,6 +32,8 @@ export interface Profile {
     title: string;
     summary: string;
     body: string;
+    /** Draft cover artwork. */
+    cover: string;
   };
 }
 
