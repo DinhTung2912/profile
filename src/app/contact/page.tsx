@@ -9,6 +9,7 @@ import ContactForm from '@/components/contact/ContactForm';
 export const metadata: Metadata = {
   title: 'Liên hệ',
   description: 'Liên hệ với Nguyễn Đình Tùng — Odoo Developer.',
+  alternates: { canonical: '/contact' },
 };
 
 export default function ContactPage() {

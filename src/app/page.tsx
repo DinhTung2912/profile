@@ -11,6 +11,7 @@ import PersonalMessage from '@/components/home/PersonalMessage';
 export const metadata: Metadata = {
   description:
     'Nguyễn Đình Tùng — Odoo Developer. Kinh nghiệm phát triển module, tùy chỉnh quy trình nghiệp vụ, báo cáo, tích hợp REST API/XML-RPC và xử lý dữ liệu PostgreSQL.',
+  alternates: { canonical: '/' },
 };
 
 export default function Home() {

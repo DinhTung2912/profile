@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Hành trình',
   description:
     'Những cột mốc trong quá trình học tập và làm việc với Odoo ERP.',
+  alternates: { canonical: '/journeys' },
 };
 
 export default function JourneysPage() {

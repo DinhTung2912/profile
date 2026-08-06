@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'Blog',
   description:
     'Ghi chép kỹ thuật về Odoo, Python, PostgreSQL và tích hợp hệ thống.',
+  alternates: { canonical: '/blog' },
 };
 
 export default function BlogPage() {

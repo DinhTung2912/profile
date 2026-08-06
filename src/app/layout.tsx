@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ScrollToTop from '@/components/layout/ScrollToTop';
 import { SITE_URL } from '@/lib/site';
+import StructuredData from '@/components/shared/StructuredData';
 
 const inter = Inter({ subsets: ['vietnamese'], variable: '--font-inter' });
 const lora = Lora({ subsets: ['vietnamese'], variable: '--font-lora' });
@@ -22,7 +23,8 @@ export const metadata: Metadata = {
     default: siteTitle,
   },
   description: siteDescription,
-  alternates: { canonical: '/' },
+  // No `alternates.canonical` here: child segments inherit it, which would make
+  // every page declare the homepage as its canonical. Each page sets its own.
   authors: [{ name: 'Nguyễn Đình Tùng' }],
   creator: 'Nguyễn Đình Tùng',
   keywords: [
@@ -34,6 +36,9 @@ export const metadata: Metadata = {
     'XML-RPC',
     'REST API',
   ],
+  // The share image comes from src/app/opengraph-image.png, which Next wires
+  // into both og:image and twitter:image automatically — no manual URLs to
+  // drift out of sync.
   openGraph: {
     title: siteTitle,
     description: siteDescription,
@@ -41,12 +46,17 @@ export const metadata: Metadata = {
     siteName: 'Nguyễn Đình Tùng',
     locale: 'vi_VN',
     type: 'website',
-    images: [
-      { url: '/images/og-image.jpg', width: 1200, height: 630, alt: siteTitle },
-    ],
   },
-  twitter: { card: 'summary_large_image', images: ['/images/og-image.jpg'] },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteTitle,
+    description: siteDescription,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
 };
 
 // Applies the stored theme before first paint so dark-mode visitors never see
@@ -62,6 +72,7 @@ export default function RootLayout({
     <html lang="vi" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <StructuredData />
       </head>
       <body className={`${inter.variable} ${lora.variable} antialiased min-h-screen flex flex-col`}>
         <ThemeProvider>

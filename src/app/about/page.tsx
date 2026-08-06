@@ -8,6 +8,7 @@ export const metadata = {
   title: 'Về tôi',
   description:
     'Kinh nghiệm, kỹ năng và quá trình làm việc với Odoo ERP của Nguyễn Đình Tùng.',
+  alternates: { canonical: '/about' },
 };
 
 export default function AboutPage() {
