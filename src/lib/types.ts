@@ -25,6 +25,14 @@ export interface Profile {
   interests: { title: string; body: string }[];
   /** Work taken on outside the main Odoo role. */
   sideWork: string;
+  /** A personal project in progress. `status` must make clear it isn't finished. */
+  currentProject?: {
+    status: string;
+    kind: string;
+    title: string;
+    summary: string;
+    body: string;
+  };
 }
 
 export interface SkillGroup {

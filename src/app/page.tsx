@@ -3,6 +3,7 @@ import HeroSection from '@/components/home/HeroSection';
 import FeaturedJourneys from '@/components/home/FeaturedJourneys';
 import LatestPosts from '@/components/home/LatestPosts';
 import LatestVlogs from '@/components/home/LatestVlogs';
+import CurrentProject from '@/components/home/CurrentProject';
 import PersonalMessage from '@/components/home/PersonalMessage';
 
 // No `title` here on purpose: `title.template` from the root layout does not
@@ -21,6 +22,7 @@ export default function Home() {
       <FeaturedJourneys />
       <LatestPosts />
       <LatestVlogs />
+      <CurrentProject />
       <PersonalMessage />
     </>
   );

@@ -4,7 +4,9 @@ import { profile } from '@/data/profile';
 
 export default function PersonalMessage() {
   return (
-    <section className="bg-surface-muted">
+    // Sits on `background` so the CTA separates from the footer, which shares
+    // the `surface-muted` tone.
+    <section className="bg-background">
       <div className="site-container py-16 sm:py-20">
         <div className="mx-auto max-w-2xl text-center">
           <p className="eyebrow">Liên hệ</p>
