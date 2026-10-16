@@ -156,6 +156,14 @@ body {
   padding-block: clamp(3.25rem, 6vw, 5rem);
 }
 
+/* Same bottom rhythm as `section-space`, tighter on top — for the first section
+   under a page header, which already supplies its own headroom. Declared as its
+   own class because `.section-space` is unlayered and so outranks `pt-*`. */
+.section-space-after-header {
+  padding-top: clamp(1.75rem, 2.5vw, 2.5rem);
+  padding-bottom: clamp(3.25rem, 6vw, 5rem);
+}
+
 /* Top/bottom padding for a standalone page under the sticky header. */
 .page-space {
   padding-top: clamp(2rem, 4vw, 3rem);

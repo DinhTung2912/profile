@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { posts } from '@/data/posts';
-import PostCard from '@/components/blog/PostCard';
+import PostIndex from '@/components/blog/PostIndex';
 import PageHeader from '@/components/shared/PageHeader';
 import Breadcrumb from '@/components/shared/Breadcrumb';
 import EmptyState from '@/components/shared/EmptyState';
@@ -27,8 +27,6 @@ export default function BlogClientPage() {
       ? sortedPosts
       : sortedPosts.filter((post) => post.category === activeCategory);
 
-  const [lead, ...others] = filteredPosts;
-
   return (
     <div className="page-space">
       <div className="site-container">
@@ -38,12 +36,6 @@ export default function BlogClientPage() {
           badge="Ghi chép"
           title="Blog"
           description="Ghi chép kỹ thuật về Odoo, Python, PostgreSQL và tích hợp hệ thống — cùng những bài học rút ra từ công việc và quá trình phát triển bản thân."
-          aside={
-            // Reflects the active filter, so the count never contradicts the list.
-            <p aria-live="polite" className="text-sm text-muted-foreground">
-              <span className="font-semibold text-foreground">{filteredPosts.length}</span> bài viết
-            </p>
-          }
         />
 
         {posts.length === 0 ? (
@@ -51,60 +43,59 @@ export default function BlogClientPage() {
             <EmptyState title="Chưa có bài viết" description="Chưa có bài viết nào được xuất bản." />
           </div>
         ) : (
-          <>
+          <section className="mt-10" aria-labelledby="danh-sach-bai-viet">
+            {/* Row titles are h3, so the list needs an h2 to keep the document
+                outline from jumping h1 -> h3. */}
+            <h2 id="danh-sach-bai-viet" className="sr-only">
+              Danh sách bài viết
+            </h2>
+
+            {/* Text filters, not pills: five posts do not need a control bar. */}
             <div
               role="group"
               aria-label="Lọc theo danh mục"
-              className="mt-9 flex flex-wrap gap-2"
+              className="meta-row gap-x-1 text-sm"
             >
-              {categories.map((category) => {
+              {categories.map((category, index) => {
                 const active = activeCategory === category;
                 return (
-                  <button
-                    key={category}
-                    type="button"
-                    onClick={() => setActiveCategory(category)}
-                    aria-pressed={active}
-                    className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
-                      active
-                        ? 'border-primary bg-primary text-primary-foreground'
-                        : 'border-border bg-surface text-muted-foreground hover:border-border-strong hover:text-foreground'
-                    }`}
-                  >
-                    {category}
-                  </button>
+                  <span key={category} className="flex items-center gap-x-1">
+                    {index > 0 && (
+                      <span className="meta-sep mr-1" aria-hidden="true">
+                        /
+                      </span>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setActiveCategory(category)}
+                      aria-pressed={active}
+                      className={`py-1 transition-colors ${
+                        active
+                          ? 'font-semibold text-foreground underline decoration-primary decoration-2 underline-offset-4'
+                          : 'text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  </span>
                 );
               })}
+              <span className="ml-auto text-xs" aria-live="polite">
+                {filteredPosts.length} bài
+              </span>
             </div>
 
-            {filteredPosts.length === 0 ? (
-              <div className="mt-8">
+            <div className="mt-5">
+              {filteredPosts.length === 0 ? (
                 <EmptyState
                   title="Không có bài viết"
                   description="Chưa có bài viết nào trong danh mục này."
                 />
-              </div>
-            ) : (
-              <section className="mt-8 space-y-6 lg:space-y-8" aria-labelledby="danh-sach-bai-viet">
-                {/* Card titles are h3, so the list needs an h2 to keep the
-                    document outline from jumping h1 -> h3. */}
-                <h2 id="danh-sach-bai-viet" className="sr-only">
-                  Danh sách bài viết
-                </h2>
-
-                {/* Lead article gets a wide treatment; the rest sit in a two-column grid. */}
-                <PostCard post={lead} featured priority />
-
-                {others.length > 0 && (
-                  <div className="grid gap-6 sm:grid-cols-2 lg:gap-8">
-                    {others.map((post) => (
-                      <PostCard key={post.slug} post={post} />
-                    ))}
-                  </div>
-                )}
-              </section>
-            )}
-          </>
+              ) : (
+                <PostIndex posts={filteredPosts} />
+              )}
+            </div>
+          </section>
         )}
       </div>
     </div>

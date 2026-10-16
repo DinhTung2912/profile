@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Calendar, Clock } from 'lucide-react';
 import { posts } from '@/data/posts';
 import { formatDate } from '@/lib/utils';
-import PostCard from '@/components/blog/PostCard';
+import PostIndex from '@/components/blog/PostIndex';
 import Breadcrumb from '@/components/shared/Breadcrumb';
 
 interface Props {
@@ -97,12 +97,10 @@ export default async function PostDetailPage({ params }: Props) {
       </article>
 
       {relatedPosts.length > 0 && (
-        <aside className="site-container mt-16 border-t border-border pt-10">
+        <aside className="reading-container mt-16">
           <h2 className="section-title text-foreground">Đọc tiếp</h2>
-          <div className="mt-7 grid gap-6 sm:grid-cols-2 lg:gap-8">
-            {relatedPosts.map((relatedPost) => (
-              <PostCard key={relatedPost.slug} post={relatedPost} />
-            ))}
+          <div className="mt-6">
+            <PostIndex posts={relatedPosts} />
           </div>
         </aside>
       )}

@@ -26,22 +26,24 @@ const highlights = [
 
 export default function StorySection() {
   return (
-    <section className="section-space">
-      <div className="site-container grid gap-10 lg:grid-cols-12 lg:gap-14">
-        <div className="lg:col-span-5">
-          <div className="media-frame mx-auto aspect-3/4 w-full max-w-sm rounded-2xl border border-border lg:sticky lg:top-24 lg:max-w-none">
+    <section className="section-space-after-header">
+      <div className="site-container grid gap-8 sm:grid-cols-12 sm:gap-10 lg:gap-14">
+        {/* Left-aligned and modest on small screens: a centred full-width
+            portrait pushed the whole introduction below the fold. */}
+        <div className="sm:col-span-5">
+          <div className="media-frame aspect-3/4 w-40 rounded-xl border border-border sm:w-full sm:rounded-2xl lg:sticky lg:top-24">
             <Image
               src={profile.avatar}
               alt={`Chân dung ${profile.name}`}
               fill
               priority
-              sizes="(max-width: 1024px) 24rem, 34vw"
+              sizes="(max-width: 640px) 10rem, 34vw"
               className="object-cover"
             />
           </div>
         </div>
 
-        <div className="lg:col-span-7">
+        <div className="sm:col-span-7">
           <p className="eyebrow">Đôi lời</p>
           <h2 className="section-title mt-3 text-foreground">
             Mình làm ERP, và mình viết về nó
